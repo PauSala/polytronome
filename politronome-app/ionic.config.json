@@ -1,7 +1,0 @@
-{
-  "name": "PolitronomeApp",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}
