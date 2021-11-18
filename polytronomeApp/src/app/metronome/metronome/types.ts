@@ -1,0 +1,1 @@
+export type Note = { note: number; time: number; audioContext: number }

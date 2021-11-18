@@ -1,0 +1,65 @@
+<div class="main">
+
+    <div id="addMeasuresControls" >
+
+        <div id="addFiguresBlock">
+            <h4>Add figure</h4>
+            <label for="mesuresSelect">Choose a mesure:</label>
+
+            <div style="padding: 0.2em;">
+                <select name="mesuresSelect" id="mesuresSelect" class="select">
+                    <option value="3">Triangle</option>
+                    <option value="4">Square</option>
+                    <option value="5">Pentagon</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <button id="addMesures-button" class="button">
+            <span class="material-icons" style="margin: 3px; margin-left: 3px;">
+                add </span>
+        </button>
+
+    </div>
+
+    <div class="metronome">
+
+        <div class="title">
+            <p>Polytronome</p>
+        </div>
+
+        <div id="canvasWrapper">
+            <canvas #myCanvas id="canvas"></canvas>
+        </div>
+
+        <div class="tempo-container">
+            <span id="tempo">120</span>
+            <span class="bpm">bpm</span>
+        </div>
+
+        <div class="controls">
+            <!-- 
+            <button class="button tempo-change" data-change="-5">-5</button> -->
+            <button class="button tempo-change" data-change="-1">-</button>
+
+            <button id="play-button" class="button">
+                <span id="play-pause-icon" class="material-icons" style="margin-top: 3px;">
+                    play_circle </span>
+            </button>
+
+            <button class="button tempo-change" data-change="+1">+</button>
+            <!-- <button class="button tempo-change" data-change="+5">+5</button> -->
+
+        </div>
+    </div>
+</div>
