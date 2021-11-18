@@ -1,7 +1,6 @@
 import { lcm_two_numbers } from "../utils/lcm";
-import { animate } from "../metronome-layout/metronome-layout.helpers";
-import { Circle, FigureSet } from "../metronome-layout/types";
-import { Note } from "./types";
+import { FigureSet } from "../metronome-layout/types";
+import { ClickEvent, Note } from "./types";
 import { EventEmitter } from "@angular/core";
 
 
@@ -17,20 +16,10 @@ export class Metronome {
     private isRunning: boolean;
     private intervalID: ReturnType<typeof setTimeout>;
     public groups: FigureSet;
-    private width: number;
-    private height: number;
-    private centerCircle: Circle;
-    private ctx: CanvasRenderingContext2D;
-    public clickEventEmitter:EventEmitter<boolean>;
+    public clickEventEmitter: EventEmitter<ClickEvent>;
 
 
-    constructor(
-        tempo = 100,
-        groups = [2],
-        width: number,
-        height: number,
-        centerCircle: Circle,
-        ctx: CanvasRenderingContext2D) {
+    constructor(tempo = 100, groups = [2]) {
 
         this.audioContext = new (window.AudioContext)();
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
@@ -43,10 +32,6 @@ export class Metronome {
         this.intervalID = setInterval(() => null, 0);
         clearInterval(this.intervalID);
         this.groups = groups.sort((a, b) => a - b);
-        this.width = width;
-        this.height = height;
-        this.centerCircle = centerCircle;
-        this.ctx = ctx;
         this.clickEventEmitter = new EventEmitter();
 
     }
@@ -68,34 +53,30 @@ export class Metronome {
 
     private start() {
 
+        const INITIAL_DELAY = 0.05;
+
         if (this.isRunning) return;
 
         this.isRunning = true;
         this.currentNote = 0;
-        //this.nextNoteTime = this.audioContext.currentTime + 0.05;
+        this.nextNoteTime = this.audioContext.currentTime + INITIAL_DELAY;
         this.intervalID = setInterval(() => this.scheduler(), this.lookahead);
     }
 
     private scheduler() {
 
-        const INITIAL_TIMESTAMP = 0;
-        const START = 0;
         // while there are notes that will need to play before the next interval, schedule them and advance the pointer.
         while (this.nextNoteTime < this.audioContext.currentTime + this.scheduleAheadTime) {
 
             if (this.noteInGroup()) {
+
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
-                animate(
-                    INITIAL_TIMESTAMP,
-                    START,
-                    this.currentNote,
-                    this.groups,
-                    this.width,
-                    this.height,
-                    this.ctx,
-                    this.centerCircle
-                );
-                this.clickEventEmitter.emit(true);
+
+                const clickEvent: ClickEvent = {
+                    currentNote: this.currentNote,
+                    groups: this.groups,
+                }
+                this.clickEventEmitter.emit(clickEvent);
             }
             this.nextNote();
         }
@@ -129,7 +110,7 @@ export class Metronome {
         osc.stop(time + 0.03);
     }
 
-    private getFrequency (beatNumber: number, groups: FigureSet){
+    private getFrequency(beatNumber: number, groups: FigureSet) {
         if (groups.length > 1) {
             return (beatNumber % Math.max(...this.groups) == 0) ? 1000 : 800;
         } else {
@@ -142,7 +123,7 @@ export class Metronome {
         var secondsPerBeat = 60.0 / this.tempo / (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) * this.groups.reduce((a, b) => Math.min(a, b))
         this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
 
-        this.currentNote++; // Advance the beat number, wrap to zeropo
+        this.currentNote++; // Advance the beat number
         this.currentNote = this.currentNote % this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
 
     }

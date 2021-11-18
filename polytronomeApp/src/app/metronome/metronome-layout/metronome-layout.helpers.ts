@@ -1,3 +1,4 @@
+import { ClickEvent } from "../metronome/types";
 import { lcm_two_numbers } from "../utils/lcm";
 import { Circle, FigureSet, Point } from "./types";
 
@@ -16,18 +17,6 @@ export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void =
     ctx.fill();
     ctx.restore();
 }
-
-
-
-
-/* export const drawBackgroundCircle = (ctx: CanvasRenderingContext2D, c: Circle): void => {
-    ctx.beginPath();
-    ctx.arc(c.x, c.y, c.r + 10, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#f3a625cf';
-    ctx.stroke();
-    ctx.fillStyle = '#f3a625cf';
-    ctx.fill();
-} */
 
 export const getPoints = (groups: FigureSet, c: Circle) => {
 
@@ -89,26 +78,20 @@ export const getMainGradient = (ctx: CanvasRenderingContext2D, c: Circle) => {
     return gradient;
 }
 
-export const animate =
-    (
-        timestamp: number,
-        start: number,
-        currentNote: number,
-        groups: FigureSet,
-        width: number,
-        height: number,
-        ctx: CanvasRenderingContext2D,
-        centralCircle: Circle
-    ): void => {
+export const animate = (
+    animateEvent: ClickEvent,
+    width: number,
+    height: number,
+    ctx: CanvasRenderingContext2D,
+    centralCircle: Circle
+): void => {
 
-        if (!start) start = timestamp;
+    const points = getPoints(animateEvent.groups, centralCircle);
 
-        const points = getPoints(groups, centralCircle);
+    ctx.clearRect(0, 0, width, height);
+    drawMainCircle(ctx, centralCircle);
+    drawFigures(points, animateEvent.groups, ctx);
+    drawClicks(points[animateEvent.currentNote].x, points[animateEvent.currentNote].y, ctx);
 
-        ctx.clearRect(0, 0, width, height);
-        drawMainCircle(ctx, centralCircle);
-        drawFigures(points, groups, ctx);
-        drawClicks(points[currentNote].x, points[currentNote].y, ctx);
-
-    }
+}
 

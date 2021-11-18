@@ -1,7 +1,7 @@
-import { animate } from '@angular/animations';
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Metronome } from '../metronome/metronome';
-import { drawFigures, drawMainCircle, getPoints } from './metronome-layout.helpers';
+import { ClickEvent } from '../metronome/types';
+import { animate, drawFigures, drawMainCircle, getPoints } from './metronome-layout.helpers';
 import { Circle } from './types';
 
 @Component({
@@ -24,13 +24,14 @@ export class MetronomeLayoutComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit(): void {
+    
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.canvas.nativeElement.width = this.cw;
     this.canvas.nativeElement.height = this.ch;
 
-    this.metronome = new Metronome(100, [2, 5], this.cw, this.ch, this.c, this.ctx);
-    this.metronome.clickEventEmitter.subscribe(value => {
-      //animate()
+    this.metronome = new Metronome(100, [2, 5]);
+    this.metronome.clickEventEmitter.subscribe((animateEvent:ClickEvent) => {
+      animate(animateEvent, this.cw, this.ch, this.ctx, this.c);
     })
     this.draw();
   }
