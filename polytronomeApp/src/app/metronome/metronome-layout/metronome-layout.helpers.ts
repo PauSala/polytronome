@@ -18,6 +18,7 @@ export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void =
     ctx.restore();
 }
 
+
 export const getPoints = (groups: FigureSet, c: Circle) => {
 
     let subdivision = groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
@@ -33,24 +34,11 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
     return points;
 }
 
-export const getOuterPoints = (FigureSet: number, c: Circle) => {
-    let angle = (2 * Math.PI) / FigureSet;
-    let outerRadius = c.r * 0.95;
-    let points = [];
-    for (let i = 0; i > -FigureSet; i--) {
-        let o: Point = { x: 0, y: 0 };
-        o.x = c.x + outerRadius * Math.sin(i * angle - (2 * Math.PI) / FigureSet / 2);
-        o.y = c.y + outerRadius * Math.cos(i * angle - (2 * Math.PI) / FigureSet / 2);
-        points.push(o);
-    }
-    return points;
-}
-
 export const drawClicks = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
-    ctx.arc(x, y, 2, 0, 2 * Math.PI);
-    ctx.strokeStyle = 'yellow';
-    ctx.fillStyle = 'yellow';
+    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = 'white';
     ctx.fill();
 }
 
