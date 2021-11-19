@@ -8,7 +8,7 @@ import { Figure } from '../metronome-layout/types';
 })
 export class HandleFiguresServiceService {
 
-  public addFigureEmitter: EventEmitter<Figure>;
+  public addFigureEmitter: EventEmitter<{figure:Figure, tone:string}>;
   public removeFigureEmitter: EventEmitter<Figure>;
 
   constructor() { 

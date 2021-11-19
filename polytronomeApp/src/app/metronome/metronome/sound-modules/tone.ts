@@ -8,7 +8,7 @@ export abstract class Tone implements ITone {
 
     constructor(ctx: AudioContext) {
         this.ctx = ctx;
-        this.duration = 0.5;
+        this.duration = 0.6;
     }
     abstract trigger:(time:number)=>void;
 }

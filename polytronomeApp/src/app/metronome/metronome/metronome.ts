@@ -1,10 +1,11 @@
 import { lcm_two_numbers } from "../utils/lcm";
 import { Figure, FigureSet } from "../metronome-layout/types";
-import { ClickEvent, Note } from "./types";
+import { ClickEvent, FigureConfigurationMap, Note } from "./types";
 import { EventEmitter } from "@angular/core";
 import { CowBellTone } from "./sound-modules/cowbell-tone";
 import { MetronomeTone } from "./sound-modules/metronome-tone";
 import { LowBellTone } from "./sound-modules/low-bell-tone";
+import { Tone } from "./sound-modules/tone";
 
 
 export class Metronome {
@@ -19,13 +20,17 @@ export class Metronome {
     private intervalID!: ReturnType<typeof setTimeout>;
     public tempo: number;
     public groups: FigureSet;
+    public figuresConfiguration: FigureConfigurationMap;
     public clickEventEmitter: EventEmitter<ClickEvent>;
     private cowBellTone: CowBellTone;
     private metronomeTone: MetronomeTone;
     private lowBellTone: LowBellTone;
 
 
-    constructor(tempo: number, groups: FigureSet) {
+    constructor(
+        tempo: number,
+        groups: FigureSet,
+        figuresConfiguration: FigureConfigurationMap) {
 
         this.audioContext = new (window.AudioContext)();
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
@@ -36,6 +41,7 @@ export class Metronome {
         this.nextNoteTime = 0.0; // when the next note is due
         this.isRunning = false;
         this.groups = groups.sort((a, b) => a - b);
+        this.figuresConfiguration = figuresConfiguration;
         this.clickEventEmitter = new EventEmitter();
         this.cowBellTone = new CowBellTone(this.audioContext);
         this.metronomeTone = new MetronomeTone(this.audioContext);
@@ -43,9 +49,12 @@ export class Metronome {
 
     }
 
-    public addFigure(figure: Figure) {
-        if (!this.groups.includes(figure)) {
-            this.groups.push(figure);
+    public addFigure(event: { figure: number; tone: string; }) {
+        if (!this.groups.includes(event.figure)) {
+            this.groups.push(event.figure);
+            this.figuresConfiguration.set(
+                event.figure, { tone: this.getTone(event.tone), displacement: 0 }
+            )
         }
     }
 
@@ -117,8 +126,6 @@ export class Metronome {
     private scheduleNote(beatNumber: number, time: number) {
         // push the note on the queue, even if we're not playing.
         this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
-
-
         this.groups.forEach(figure => {
             this.groupToneAssociation(time, figure, beatNumber);
         })
@@ -126,7 +133,7 @@ export class Metronome {
 
     private nextNote() {
         // Advance current note 
-        var secondsPerBeat = 60.0 / this.tempo / (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) * this.groups.reduce((a, b) => Math.min(a, b))
+        var secondsPerBeat = 60.0 / this.tempo / this.adjustTempo();
         this.nextNoteTime += secondsPerBeat; // Add beat length to last beat time
 
         this.currentNote++; // Advance the beat number
@@ -134,26 +141,32 @@ export class Metronome {
 
     }
 
+    private adjustTempo(): number {
+        //return  (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) / this.groups.reduce((a, b) => Math.min(a, b))
+        return (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) / this.groups.reduce((a, b) => Math.max(a, b))
+    }
+
     private groupToneAssociation(time: number, figure: number, beatNumber: number) {
 
-        switch (figure) {
-            case 2:
-                if (beatNumber % figure !== 0 || beatNumber === 0) {
-                    this.cowBellTone.trigger(time);
-                }
-                break;
-            case 3:
-                if (beatNumber % figure !== 0 || beatNumber === 0) {
-                    this.lowBellTone.trigger(time);
-                }
-                break;
-            case 5:
-                if (beatNumber % figure !== 0 || beatNumber === 0) {
-                    this.metronomeTone.trigger(time);
-                }
-                break;
+        let subdivision = this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
+        let shouldTrigger = beatNumber % Math.floor(subdivision / figure) === 0 || beatNumber === 0;
+        if(shouldTrigger){
+            let tone:Tone | undefined = this.figuresConfiguration.get(figure)?.tone;
+            tone?.trigger(time);
         }
+    }
 
+    private getTone(tone:string):Tone{
+        switch(tone){
+            case 'metronome': 
+                return this.metronomeTone;
+            case 'lowBell':
+                return this.lowBellTone;
+            case 'highBell':
+                return this.cowBellTone;
+            default:
+                return this.metronomeTone
+        }
     }
 
 

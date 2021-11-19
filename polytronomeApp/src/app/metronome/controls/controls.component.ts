@@ -9,19 +9,23 @@ import { HandleFiguresServiceService } from '../services/handle-figures-service.
 export class ControlsComponent implements OnInit {
 
   /**fix-me to be int */
-  public selectedFigure:string;
+  public selectedFigure: string;
+  public selectedTone: string;
 
   constructor(private handleFiguresService: HandleFiguresServiceService) {
     this.selectedFigure = "2";
-   }
+    this.selectedTone = "metronome";
+  }
 
   ngOnInit(): void {
   }
 
-  public addFigure(){
-    this.handleFiguresService.addFigureEmitter.emit(parseInt(this.selectedFigure));
+  public addFigure() {
+    this.handleFiguresService.addFigureEmitter.emit(
+      { figure: parseInt(this.selectedFigure), tone: this.selectedTone }
+    );
   }
-  public removeFigure(){
+  public removeFigure() {
     this.handleFiguresService.removeFigureEmitter.emit(parseInt(this.selectedFigure));
   }
 

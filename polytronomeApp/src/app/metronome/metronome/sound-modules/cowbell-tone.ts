@@ -15,8 +15,8 @@ export class CowBellTone extends Tone {
     protected setup = () => {
         this.osc1 = this.ctx.createOscillator();
         this.osc2 = this.ctx.createOscillator();
-        this.osc1.type = "triangle";
-        this.osc2.type = "triangle";
+        this.osc1.type = "sine";
+        this.osc2.type = "sine";
         this.osc1.frequency.value = 587;
         this.osc2.frequency.value = 867;
         this.gainNode = this.ctx.createGain();

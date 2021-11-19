@@ -27,8 +27,8 @@ export class MetronomeLayoutComponent implements AfterViewInit {
 
     this.tempo = 100;
 
-    this.handleFiguresService.addFigureEmitter.subscribe((figure:Figure) => {
-      this.metronome.addFigure(figure);
+    this.handleFiguresService.addFigureEmitter.subscribe(event => {
+      this.metronome.addFigure(event);
       this.draw();
     });
     this.handleFiguresService.removeFigureEmitter.subscribe((figure:Figure) => {
@@ -44,7 +44,7 @@ export class MetronomeLayoutComponent implements AfterViewInit {
     this.canvas.nativeElement.width = this.cw;
     this.canvas.nativeElement.height = this.ch;
 
-    this.metronome = new Metronome(this.tempo, []);
+    this.metronome = new Metronome(this.tempo, [], new Map());
     this.metronome.clickEventEmitter.subscribe((animateEvent:ClickEvent) => {
       animate(animateEvent, this.cw, this.ch, this.ctx, this.c);
     });
