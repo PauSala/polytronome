@@ -1,0 +1,38 @@
+
+<div id="addMeasuresControls">
+    <div id="addFiguresBlock">
+        <label for="mesuresSelect">Add or remove figures</label>
+
+        <div style="padding: 0.2em;">
+            <select name="mesuresSelect" id="mesuresSelect" class="select" [(ngModel)]="selectedFigure">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+            </select>
+
+        </div>
+
+    </div>
+    <div>
+        <button id="addMesures-button" class="control-button">
+            <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="addFigure()">
+                add
+            </span>
+        </button>
+        <button id="addMesures-button" class="control-button">
+            <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="removeFigure()">
+                remove
+            </span>
+        </button>
+    </div>
+
+</div>

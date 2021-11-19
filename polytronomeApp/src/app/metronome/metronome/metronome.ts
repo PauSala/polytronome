@@ -1,5 +1,5 @@
 import { lcm_two_numbers } from "../utils/lcm";
-import { FigureSet } from "../metronome-layout/types";
+import { Figure, FigureSet } from "../metronome-layout/types";
 import { ClickEvent, Note } from "./types";
 import { EventEmitter } from "@angular/core";
 
@@ -9,17 +9,17 @@ export class Metronome {
     private audioContext: AudioContext;
     private notesInQueue: Array<Note>;
     private currentNote: number;
-    private tempo: number;
     private lookahead: number;
     private scheduleAheadTime: number;
     private nextNoteTime: number;
     private isRunning: boolean;
     private intervalID: ReturnType<typeof setTimeout>;
+    public tempo: number;
     public groups: FigureSet;
     public clickEventEmitter: EventEmitter<ClickEvent>;
 
 
-    constructor(tempo = 100, groups = [2]) {
+    constructor(tempo: number, groups: FigureSet) {
 
         this.audioContext = new (window.AudioContext)();
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
@@ -34,6 +34,20 @@ export class Metronome {
         this.groups = groups.sort((a, b) => a - b);
         this.clickEventEmitter = new EventEmitter();
 
+    }
+
+    public addFigure(figure: Figure) {
+        if (!this.groups.includes(figure)) {
+            this.groups.push(figure);
+        }
+    }
+
+    public increaseTempo() { this.tempo++ }
+
+    public decreaseTempo() { this.tempo-- }
+
+    public removeFigure(figure: Figure) {
+        this.groups = this.groups.filter((_figure: Figure) => _figure !== figure);
     }
 
     public startStop() {
@@ -64,6 +78,8 @@ export class Metronome {
     }
 
     private scheduler() {
+
+        if (this.groups.length === 0) return;
 
         // while there are notes that will need to play before the next interval, schedule them and advance the pointer.
         while (this.nextNoteTime < this.audioContext.currentTime + this.scheduleAheadTime) {

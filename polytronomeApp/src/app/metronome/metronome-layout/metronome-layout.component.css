@@ -46,6 +46,7 @@
     align-items: center;
 }
 
+
 .button {
     margin: 0.3em;
     display: inline-block;
@@ -87,30 +88,4 @@
 
 .tempo-change {
     font-family: 'Inconsolata', monospace;
-}
-
-#addMeasuresControls {
-    width: 20em;
-    height: auto;
-    padding: 1em;
-    /* border: 1px solid white; */
-    color: rgb(56, 190, 190);
-    margin: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    background: #161717;
-    border-radius: 17px;
-    box-shadow: 0 4px 8px 0 rgb(196 182 182 / 20%), 0 6px 25px 0 rgb(189 186 186 / 19%);
-    font-family: 'Inconsolata', monospace;;
-}
-.select{
-
-    background-color: #161717;
-    color: #35bebe;
-    border: 0px;
-    border-bottom: 1px solid #38bebe;
-    padding: 0.4em;
-    margin: 0.1em;
-    font-family: 'Inconsolata', monospace;;
 }

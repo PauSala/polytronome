@@ -79,7 +79,9 @@ export const animate = (
     ctx.clearRect(0, 0, width, height);
     drawMainCircle(ctx, centralCircle);
     drawFigures(points, animateEvent.groups, ctx);
-    drawClicks(points[animateEvent.currentNote].x, points[animateEvent.currentNote].y, ctx);
+    if(points[animateEvent.currentNote]){
+        drawClicks(points[animateEvent.currentNote].x, points[animateEvent.currentNote].y, ctx);
+    }
 
 }
 

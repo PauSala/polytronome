@@ -1,0 +1,41 @@
+#addMeasuresControls {
+    display: flex;
+    flex-direction: column;
+    width: 20em;
+    height: auto;
+    padding: 1em;
+    border: 1px solid rgb(6, 88, 88);
+    color: rgb(6, 88, 88);
+    margin: 1em;
+    align-items: flex-start;
+   /*  background: #266868; */
+}
+.select{
+
+    background-color: #edf3f3;
+    color: #053b3b;
+    border: 0px;
+    border-bottom: 1px solid #38bebe;
+    padding: 0.4em;
+    margin: 0.1em;
+    font-family: 'Inconsolata', monospace;;
+}
+
+
+.control-button {
+    margin: 0.3em;
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 400;
+    color: rgb(6, 63, 58);
+    border: 0px solid rgb(42, 1, 61);
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2pt rgb(136, 224, 213);
+}
