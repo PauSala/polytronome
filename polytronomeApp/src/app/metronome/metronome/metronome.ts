@@ -2,6 +2,8 @@ import { lcm_two_numbers } from "../utils/lcm";
 import { Figure, FigureSet } from "../metronome-layout/types";
 import { ClickEvent, Note } from "./types";
 import { EventEmitter } from "@angular/core";
+import { CowBellTone } from "./sound-modules/cowbell-tone";
+import { MetronomeTone } from "./sound-modules/metronome-tone";
 
 
 export class Metronome {
@@ -13,10 +15,12 @@ export class Metronome {
     private scheduleAheadTime: number;
     private nextNoteTime: number;
     private isRunning: boolean;
-    private intervalID: ReturnType<typeof setTimeout>;
+    private intervalID!: ReturnType<typeof setTimeout>;
     public tempo: number;
     public groups: FigureSet;
     public clickEventEmitter: EventEmitter<ClickEvent>;
+    private cowBellTone:CowBellTone;
+    private metronomeTone:MetronomeTone;
 
 
     constructor(tempo: number, groups: FigureSet) {
@@ -29,10 +33,10 @@ export class Metronome {
         this.scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0; // when the next note is due
         this.isRunning = false;
-        this.intervalID = setInterval(() => null, 0);
-        clearInterval(this.intervalID);
         this.groups = groups.sort((a, b) => a - b);
         this.clickEventEmitter = new EventEmitter();
+        this.cowBellTone = new CowBellTone(this.audioContext);
+        this.metronomeTone = new MetronomeTone(this.audioContext);
 
     }
 
@@ -110,28 +114,9 @@ export class Metronome {
     private scheduleNote(beatNumber: number, time: number) {
         // push the note on the queue, even if we're not playing.
         this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
-        // create an oscillator
-        const osc = this.audioContext.createOscillator();
-        const envelope = this.audioContext.createGain();
 
-        osc.frequency.value = this.getFrequency(beatNumber, this.groups)
-        envelope.gain.value = 1;
-        envelope.gain.exponentialRampToValueAtTime(1, time + 0.001);
-        envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
-
-        osc.connect(envelope);
-        envelope.connect(this.audioContext.destination);
-
-        osc.start(time);
-        osc.stop(time + 0.03);
-    }
-
-    private getFrequency(beatNumber: number, groups: FigureSet) {
-        if (groups.length > 1) {
-            return (beatNumber % Math.max(...this.groups) == 0) ? 1000 : 800;
-        } else {
-            return beatNumber === 0 ? 1000 : 800;
-        }
+        this.cowBellTone.trigger(time);
+        //this.metronomeTone.trigger(time);
     }
 
     private nextNote() {
