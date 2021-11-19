@@ -24,7 +24,7 @@
 }
 
 .metronome {
-    padding: 0.2em;
+    padding: 0.3em;
     border: 1px solid white;
     margin: 1em;
     max-width: 600px;
@@ -39,7 +39,7 @@
 
 .controls {
     font-family: 'Montserrat', sans-serif;
-    margin: 0.5em;
+    margin: 0.6em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -47,28 +47,32 @@
 }
 
 
-.button {
+.cbutton {
     margin: 0.3em;
     display: inline-block;
     font-size: 0.9em;
     font-weight: 400;
-    color: rgb(225, 236, 233);
+    color: rgb(194, 238, 226);
     border: 0px solid rgb(42, 1, 61);
     width: 2.4em;
     height: 2.4em;
     border-radius: 50%;
     background: rgba(209, 198, 205, 0.342);
-    background: radial-gradient(circle, rgba(238, 234, 237, 0.027) 0%, rgba(239, 236, 240, 0) 100%);
     cursor: pointer;
-    text-shadow: 1px 1px 2px rgb(112, 12, 126), 0 0 1em rgb(0, 102, 255), 0 0 0.2em rgb(0, 255, 115);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+/*     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
     z-index: 4;
     vertical-align: middle;
+    opacity: 0.5;
+    transition: 0.5s;
 }
 
-.button:focus {
-    outline: none;
-    box-shadow: 0 0 0 2pt rgb(136, 224, 213);
+.cbutton:focus {
+    outline-width:none;
+    border: none;
+}
+
+.cbutton:hover{
+    opacity: 1;
 }
 
 .tempo-container {

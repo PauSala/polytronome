@@ -37,8 +37,9 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
 export const drawClicks = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, 2 * Math.PI);
-    ctx.strokeStyle = 'white';
-    ctx.fillStyle = 'white';
+    ctx.strokeStyle = '#f0e2090e';
+    ctx.fillStyle = '#f7e2399e';
+    ctx.stroke();
     ctx.fill();
 }
 

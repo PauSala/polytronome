@@ -4,6 +4,7 @@ import { ClickEvent, Note } from "./types";
 import { EventEmitter } from "@angular/core";
 import { CowBellTone } from "./sound-modules/cowbell-tone";
 import { MetronomeTone } from "./sound-modules/metronome-tone";
+import { LowBellTone } from "./sound-modules/low-bell-tone";
 
 
 export class Metronome {
@@ -19,8 +20,9 @@ export class Metronome {
     public tempo: number;
     public groups: FigureSet;
     public clickEventEmitter: EventEmitter<ClickEvent>;
-    private cowBellTone:CowBellTone;
-    private metronomeTone:MetronomeTone;
+    private cowBellTone: CowBellTone;
+    private metronomeTone: MetronomeTone;
+    private lowBellTone: LowBellTone;
 
 
     constructor(tempo: number, groups: FigureSet) {
@@ -37,6 +39,7 @@ export class Metronome {
         this.clickEventEmitter = new EventEmitter();
         this.cowBellTone = new CowBellTone(this.audioContext);
         this.metronomeTone = new MetronomeTone(this.audioContext);
+        this.lowBellTone = new LowBellTone(this.audioContext);
 
     }
 
@@ -115,8 +118,10 @@ export class Metronome {
         // push the note on the queue, even if we're not playing.
         this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
 
-        this.cowBellTone.trigger(time);
-        //this.metronomeTone.trigger(time);
+
+        this.groups.forEach(figure => {
+            this.groupToneAssociation(time, figure, beatNumber);
+        })
     }
 
     private nextNote() {
@@ -126,6 +131,28 @@ export class Metronome {
 
         this.currentNote++; // Advance the beat number
         this.currentNote = this.currentNote % this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
+
+    }
+
+    private groupToneAssociation(time: number, figure: number, beatNumber: number) {
+
+        switch (figure) {
+            case 2:
+                if (beatNumber % figure !== 0 || beatNumber === 0) {
+                    this.cowBellTone.trigger(time);
+                }
+                break;
+            case 3:
+                if (beatNumber % figure !== 0 || beatNumber === 0) {
+                    this.lowBellTone.trigger(time);
+                }
+                break;
+            case 5:
+                if (beatNumber % figure !== 0 || beatNumber === 0) {
+                    this.metronomeTone.trigger(time);
+                }
+                break;
+        }
 
     }
 

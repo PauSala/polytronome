@@ -1,6 +1,6 @@
 import { Tone } from "./tone";
 
-export class CowBellTone extends Tone {
+export class LowBellTone extends Tone {
 
 
     private osc1!: OscillatorNode;
@@ -17,9 +17,10 @@ export class CowBellTone extends Tone {
         this.osc2 = this.ctx.createOscillator();
         this.osc1.type = "triangle";
         this.osc2.type = "triangle";
-        this.osc1.frequency.value = 587;
-        this.osc2.frequency.value = 867;
+        this.osc1.frequency.value = 227;
+        this.osc2.frequency.value = 431;
         this.gainNode = this.ctx.createGain();
+        //this.gainNode.gain.value = 0.0001;
         this.filter = this.ctx.createBiquadFilter();
         
         //"allpass" | "bandpass" | "highpass" | "highshelf" | "lowpass" | "lowshelf" | "notch" | "peaking"
@@ -33,7 +34,7 @@ export class CowBellTone extends Tone {
     public trigger = (time: number) => {
 
         this.setup();
-        this.gainNode.gain.linearRampToValueAtTime(0.5, time);
+        this.gainNode.gain.linearRampToValueAtTime(0.3, time);
         this.gainNode.gain.exponentialRampToValueAtTime(0.01, time + this.duration);
 
         this.osc1.start(time);
