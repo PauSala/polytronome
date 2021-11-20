@@ -18,16 +18,17 @@ export class Metronome {
     private lookahead: number;
     private scheduleAheadTime: number;
     private nextNoteTime: number;
-    public isRunning: boolean;
     private intervalID!: ReturnType<typeof setTimeout>;
-    public tempo: number;
-    public groups: FigureSet;
-    public figuresConfiguration: FigureConfigurationMap;
-    public clickEventEmitter: EventEmitter<ClickEvent>;
     private hihatTone: Tone;
     private metronomeTone: Tone;
     private metronome2Tone: Tone;
     private drumTone: Tone;
+
+    public isRunning: boolean;
+    public tempo: number;
+    public groups: FigureSet;
+    public figuresConfiguration: FigureConfigurationMap;
+    public clickEventEmitter: EventEmitter<ClickEvent>;
 
 
     constructor(
@@ -182,6 +183,5 @@ export class Metronome {
                 return this.metronomeTone
         }
     }
-
 
 }

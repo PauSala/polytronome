@@ -67,6 +67,7 @@ export class MetronomeLayoutComponent implements AfterViewInit {
     drawMainCircle(this.ctx, this.c);
     drawFigures(points, this.metronome.groups, this.ctx);
 
+
   }
 
   public increaseTempo(increase: number) {

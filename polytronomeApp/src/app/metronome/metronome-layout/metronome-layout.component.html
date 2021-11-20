@@ -17,8 +17,8 @@
 
         <div class="controls">
              
-            <button class="cbutton tempo-change" (click)="decreaseTempo(10)">-10</button> 
-            <button class="cbutton tempo-change" (click)="decreaseTempo(1)">-</button>
+            <button class="cbutton cbutton-small tempo-change" (click)="decreaseTempo(10)">-10</button> 
+            <button class="cbutton cbutton-medium tempo-change" (click)="decreaseTempo(1)">-</button>
 
             <button id="play-button" class="cbutton" (click)="metronome.startStop();">
                 <span 
@@ -30,8 +30,8 @@
                     stop_circle </span>
             </button>
 
-            <button class="cbutton tempo-change" (click)="increaseTempo(1)">+</button>
-            <button class="cbutton tempo-change" (click)="increaseTempo(10)">+10</button> 
+            <button class="cbutton cbutton-medium tempo-change" (click)="increaseTempo(1)">+</button>
+            <button class="cbutton cbutton-small tempo-change" (click)="increaseTempo(10)">+10</button> 
 
         </div>
     </div>

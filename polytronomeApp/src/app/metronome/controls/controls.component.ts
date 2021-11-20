@@ -15,7 +15,7 @@ export class ControlsComponent implements OnInit {
   public figures:Array<string>;
 
   constructor(private handleFiguresService: HandleFiguresServiceService) {
-    this.selectedFigure = "2";
+    this.selectedFigure = "1";
     this.selectedTone = "metronome";
     this.figures=[];
   }

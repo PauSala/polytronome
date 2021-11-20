@@ -4,7 +4,31 @@
     padding: 0;
 }
 
+
+:root {
+    /*backgrounds*/
+    --main-bg-color: #1b1c1c;
+    --secondary-bg-color:#1b2423;
+    --controls-bg-color:#13494d;
+
+    /*Metronome*/
+    --metronome-background:radial-gradient(circle, rgb(139 147 189) 0%, rgb(8 66 66) 100%);
+    --metronome-background-orange: radial-gradient(circle, rgb(173 163 132) 0%, rgb(241 182 16) 100%);
+    
+    --metronome-text-color:#5cd3b7;
+    --metronome-text-color-funk:#7d2c8b;
+
+    --metronome-title-text-shadow:1px 1px 2px rgb(19 12 12), 0 0 1em rgb(7 78 47), 0 0 0.2em rgb(21 1 18);
+    --metronome-title-text-shadow-funk:1px 1px 2px rgb(155 26 133), 0 0 1em rgb(237 231 236), 0 0 0.2em rgb(231 231 231);
+
+    --metronome-controls-bg-color: rgba(209, 198, 205, 0.342);
+    --metronome-controls-bg-color-funk: #7d2c8b;
+    --metronome-controls-color:rgb(194, 238, 226); 
+    --metronome-controls-color-funk:rgb(236, 232, 221);
+}
+
 html {
     font-family: 'Inconsolata', monospace;;
-    background-color: #131a1a;
+    background-color: var(--main-bg-color);
 }
+

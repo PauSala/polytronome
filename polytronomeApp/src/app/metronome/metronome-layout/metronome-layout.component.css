@@ -11,16 +11,15 @@
 .title {
     padding-left: 5px;
     text-align: center;
-    /* background: #242525; */
     margin-top: 0.7em;
     font-size: 30px;
     font-family: 'Monoton', cursive;
     font-weight: 100;
-    color: #5cd3b7;
-    text-shadow: 1px 1px 2px rgb(19 12 12), 0 0 1em rgb(7 78 47), 0 0 0.2em rgb(21 1 18);
+    /* color: var(--metronome-text-color-funk);
+    text-shadow: var(--metronome-title-text-shadow-funk); */
+    color: var(--metronome-text-color);
+    text-shadow: var(--metronome-title-text-shadow);
     border-radius: 7px;
-    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 25px 0 rgba(0, 0, 0, 0.19); */
-    /* width: 100%; */
 }
 
 .metronome {
@@ -32,7 +31,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: radial-gradient(circle, rgb(139 147 189) 0%, rgb(8 66 66) 100%);
+    background: var(--metronome-background);
+    /* background: var(--metronome-background-orange); */
     border-radius: 17px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 25px 0 rgba(0, 0, 0, 0.19);
 }
@@ -50,20 +50,31 @@
 .cbutton {
     margin: 0.3em;
     display: inline-block;
-    font-size: 0.9em;
-    font-weight: 400;
-    color: rgb(194, 238, 226);
-    border: 0px solid rgb(42, 1, 61);
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--metronome-controls-color);
+    /* color: var(--metronome-controls-color-funk); */
+    border: 0px solid rgb(255, 255, 255);
     width: 2.4em;
     height: 2.4em;
     border-radius: 50%;
-    background: rgba(209, 198, 205, 0.342);
+    background-color: var( --metronome-controls-bg-color);
+    /* background-color: var( --metronome-controls-bg-color-funk); */
     cursor: pointer;
-/*     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
     z-index: 4;
     vertical-align: middle;
     opacity: 0.5;
     transition: 0.5s;
+}
+.cbutton-medium{
+    font-size: 1em;
+    width: 2.2em;
+    height: 2.2em;
+}
+.cbutton-small{
+    font-size: 0.9em;
+    width: 2.1em;
+    height: 2.1em;
 }
 
 .cbutton:focus {

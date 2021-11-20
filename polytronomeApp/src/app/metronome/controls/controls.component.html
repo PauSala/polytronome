@@ -1,9 +1,12 @@
 <div id="addMeasuresControls">
     <div style="display: flex; flex-direction: column; margin-right: 2em;">
         <div id="addFiguresBlock">
-            <h4 for="mesuresSelect">Add or remove figures</h4>
+            <h4>Configuration</h4>
+            <hr>
             <div style="padding: 0.2em; margin: 0.2em;">
+                <label for="mesuresSelect">Figures</label>
                 <select name="mesuresSelect" id="mesuresSelect" class="select" [(ngModel)]="selectedFigure">
+                    <option value=1>1</option>
                     <option value=2>2</option>
                     <option value=3>3</option>
                     <option value=4>4</option>
@@ -17,7 +20,7 @@
                     <option value=12>12</option>
                     <option value=13>13</option>
                 </select>
-
+                <label for="toneSelect">Sounds</label>
                 <select name="toneSelect" id="toneSelect" class="select" [(ngModel)]="selectedTone">
                     <option value=metronome>Metronome</option>
                     <option value=metronome2>Metronome 2</option>
@@ -40,9 +43,17 @@
             </button>
         </div>
     </div>
+
     <div style="display: flex; flex-direction: column; margin-top: 0.8em;">
-        <h4 >Current figures</h4>
+        <div>
+            <p>Current selection</p>
+        </div>
         <div class="figures-container">
+            <div class="polygon-container" *ngIf="figures.includes('1')" (click)="removeClickedFigure(1)">
+                <p class="polygon-label">1</p>
+                <div class='figure small-circle'></div>
+
+            </div>
             <div class="polygon-container" *ngIf="figures.includes('2')" (click)="removeClickedFigure(2)">
                 <p class="polygon-label">2</p>
                 <div class="line-wrapper">
