@@ -59,13 +59,13 @@ export class MetronomeLayoutComponent implements AfterViewInit {
     drawFigures(points, this.metronome.groups, this.ctx);
   }
 
-  public increaseTempo(){
-    this.tempo ++;
-    this.metronome.increaseTempo()
+  public increaseTempo(increase:number){
+    this.tempo += increase;
+    this.metronome.increaseTempo(increase)
   }
-  public decreaseTempo(){
-    this.tempo --;
-    this.metronome.decreaseTempo();
+  public decreaseTempo(decrease:number){
+    this.tempo -= decrease;
+    this.metronome.decreaseTempo(decrease);
   }
 
 }

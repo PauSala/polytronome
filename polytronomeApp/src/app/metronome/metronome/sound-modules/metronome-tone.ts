@@ -10,6 +10,7 @@ export class MetronomeTone extends Tone {
 
         const osc = this.ctx.createOscillator();
         const envelope = this.ctx.createGain();
+        const compressor = this.ctx.createDynamicsCompressor();
 
         osc.frequency.value = 800;
         envelope.gain.value = 1;
@@ -17,7 +18,8 @@ export class MetronomeTone extends Tone {
         envelope.gain.exponentialRampToValueAtTime(0.001, time + 0.02);
 
         osc.connect(envelope);
-        envelope.connect(this.ctx.destination);
+        compressor.connect(this.ctx.destination)
+        envelope.connect(compressor);
 
         osc.start(time);
         osc.stop(time + 0.03);

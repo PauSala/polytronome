@@ -21,13 +21,13 @@
                 <select name="toneSelect" id="toneSelect" class="select" [(ngModel)]="selectedTone">
                     <option value=metronome>Metronome</option>
                     <option value=metronome2>Metronome 2</option>
-                    <option value=lowBell>LowBell</option>
-                    <option value=highBell>HighBell</option>
+                    <option value=drumTone>Drum</option>
+                    <option value=hihat>Hi-hat</option>
                 </select>
             </div>
 
         </div>
-        <div>
+        <div class="add-remove">
             <button id="addMesures-button" class="control-button">
                 <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="addFigure()">
                     add
@@ -42,7 +42,7 @@
     </div>
     <div style="display: flex; flex-direction: column; margin-top: 0.8em;">
         <h4 >Current figures</h4>
-        <div style="display: flex; flex-direction: row; margin: 0.5em; width: 390px; flex-wrap: wrap;">
+        <div class="figures-container">
             <div class="polygon-container" *ngIf="figures.includes('2')">
                 <p class="polygon-label">2</p>
                 <div class="line-wrapper">

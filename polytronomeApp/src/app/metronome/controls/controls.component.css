@@ -31,15 +31,14 @@
     display: inline-block;
     font-size: 0.9em;
     font-weight: 400;
-    color: rgb(6, 63, 58);
     border: 0px solid rgb(42, 1, 61);
     width: 2.4em;
     height: 2.4em;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: rgba(233, 233, 236, 0.1) 0px 8px 24px, rgba(187, 187, 216, 0.1) 0px 16px 56px, rgba(187, 187, 230, 0.1) 0px 24px 80px;
-    background-color: #5a6060;
-    color: white;
+    background-color: #e1e6e6;
+    color: rgb(11, 65, 62);
     opacity: 0.6;
     transition: 1s;
 }
@@ -49,10 +48,26 @@
     box-shadow: 0 0 0 2pt rgb(136, 224, 213);
 }
 
+.add-remove{
+    display: flex;
+    margin: 5px;
+    /* margin-left: 1em; */
+    /* border: 1px solid grey; */
+    border-radius: 5px;
+    flex-direction: row;
+    /* justify-content: space-around; */
+}
+
 .control-button:hover{
     opacity: 1;
 }
-
+.figures-container{
+    display: flex; 
+    flex-direction: row; 
+    margin: 0.5em;
+    width: 390px; 
+    flex-wrap: wrap;
+}
 .polygon-container{
     padding: 0.8em;
     margin: 0.1em;

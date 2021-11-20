@@ -4,9 +4,10 @@ import { ClickEvent, FigureConfigurationMap, Note } from "./types";
 import { EventEmitter } from "@angular/core";
 import { CowBellTone } from "./sound-modules/cowbell-tone";
 import { MetronomeTone } from "./sound-modules/metronome-tone";
-import { LowBellTone } from "./sound-modules/low-bell-tone";
+import { DrumTone } from "./sound-modules/drum-tone";
 import { Tone } from "./sound-modules/tone";
 import { MetronomeTone2 } from "./sound-modules/metronome2_tone";
+import { HiHatTone } from "./sound-modules/hi-hat-tone";
 
 
 export class Metronome {
@@ -23,10 +24,10 @@ export class Metronome {
     public groups: FigureSet;
     public figuresConfiguration: FigureConfigurationMap;
     public clickEventEmitter: EventEmitter<ClickEvent>;
-    private cowBellTone: CowBellTone;
-    private metronomeTone: MetronomeTone;
-    private metronome2Tone: MetronomeTone2;
-    private lowBellTone: LowBellTone;
+    private hihatTone: Tone;
+    private metronomeTone: Tone;
+    private metronome2Tone: Tone;
+    private drumTone: Tone;
 
 
     constructor(
@@ -38,17 +39,22 @@ export class Metronome {
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentNote = 0;
         this.tempo = tempo;
-        this.lookahead = 25; // How frequently to call scheduling function (in milliseconds)
+
+        /**Scheduler */
+        this.lookahead = 10; // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0; // when the next note is due
+
         this.isRunning = false;
         this.groups = groups.sort((a, b) => a - b);
         this.figuresConfiguration = figuresConfiguration;
         this.clickEventEmitter = new EventEmitter();
-        this.cowBellTone = new CowBellTone(this.audioContext);
+
+        /**tones */
+        this.hihatTone = new HiHatTone(this.audioContext);
         this.metronomeTone = new MetronomeTone(this.audioContext);
         this.metronome2Tone = new MetronomeTone2(this.audioContext);
-        this.lowBellTone = new LowBellTone(this.audioContext);
+        this.drumTone = new DrumTone(this.audioContext);
 
     }
 
@@ -64,9 +70,13 @@ export class Metronome {
         this.groups = this.groups.filter((_figure: Figure) => _figure !== figure);
     }
 
-    public increaseTempo() { this.tempo++ }
+    public increaseTempo(increase:number) { 
+        this.tempo += increase;
+    }
 
-    public decreaseTempo() { this.tempo-- }
+    public decreaseTempo(decrease:number) { 
+        this.tempo -= decrease; 
+    }
 
     public startStop() {
 
@@ -127,7 +137,7 @@ export class Metronome {
 
     private scheduleNote(beatNumber: number, time: number) {
         // push the note on the queue, even if we're not playing.
-        this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
+        //this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
         this.groups.forEach(figure => {
             this.groupToneAssociation(time, figure, beatNumber);
         })
@@ -145,7 +155,7 @@ export class Metronome {
 
     private adjustTempo(): number {
         //return  (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) / this.groups.reduce((a, b) => Math.min(a, b))
-        return (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) / this.groups.reduce((a, b) => Math.max(a, b))
+        return (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) // this.groups.reduce((a, b) => Math.max(a, b))
     }
 
     private groupToneAssociation(time: number, figure: number, beatNumber: number) {
@@ -164,10 +174,10 @@ export class Metronome {
                 return this.metronomeTone;
             case 'metronome2':
                 return this.metronome2Tone;
-            case 'lowBell':
-                return this.lowBellTone;
-            case 'highBell':
-                return this.cowBellTone;
+            case 'drumTone':
+                return this.drumTone;
+            case 'hihat':
+                return this.hihatTone;
             default:
                 return this.metronomeTone
         }
