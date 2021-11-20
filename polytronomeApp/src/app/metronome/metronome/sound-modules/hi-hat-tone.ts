@@ -9,7 +9,8 @@ export class HiHatTone extends Tone {
 
     constructor(ctx: AudioContext) {
         super(ctx);
-        this.ratios = [40, 2, 3, 4.16, 5.43, 6.79, 8.21];
+        // this.ratios = [40, 2, 3, 4.16, 5.43, 6.79, 8.21];
+        this.ratios = [40, 2,  4.16, 5.43,  8.21];
 
     }
 
