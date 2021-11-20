@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Figure } from '../metronome-layout/types';
 import { HandleFiguresServiceService } from '../services/handle-figures-service.service';
 
 @Component({
@@ -31,6 +32,11 @@ export class ControlsComponent implements OnInit {
   public removeFigure() {
     this.figures = this.figures.filter(f => f !== this.selectedFigure);
     this.handleFiguresService.removeFigureEmitter.emit(parseInt(this.selectedFigure));
+  }
+
+  public removeClickedFigure(figure:Figure){
+    this.figures = this.figures.filter(f => f !== `${figure}`);
+    this.handleFiguresService.removeFigureEmitter.emit(figure);
   }
 
 }

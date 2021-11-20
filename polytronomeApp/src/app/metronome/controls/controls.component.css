@@ -68,11 +68,17 @@
     width: 390px; 
     flex-wrap: wrap;
 }
+
 .polygon-container{
     padding: 0.8em;
     margin: 0.1em;
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
     background-color: #131a1a;
+    transition:0.5s;
+}
+.polygon-container:hover{
+    opacity: 0.8;
+    cursor: pointer;
 }
 .polygon-label{
     color: white;
@@ -85,15 +91,22 @@
     width:40px;
     height:40px;
     background:#62f9f9;
+    transition:0.5s;
+}
+.figure:hover{
+    background-color: rgb(214, 153, 39);
 }
 .line-wrapper{
     width: 47px;
 }
 .line{
-    border-left: 3px solid #62f9f9;
+    border-left: 4px solid #62f9f9;
     margin-left: 22px;
     margin-top: 5px;
     height: 40px;
+}
+.line:hover{
+    border-left: 4px solid rgb(214, 153, 39);
 }
 
 .triangle {

@@ -41,7 +41,7 @@ export class Metronome {
         this.tempo = tempo;
 
         /**Scheduler */
-        this.lookahead = 10; // How frequently to call scheduling function (in milliseconds)
+        this.lookahead = 25; // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0; // when the next note is due
 
