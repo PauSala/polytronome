@@ -78,7 +78,7 @@
 }
 
 .cbutton:focus {
-    outline-width:none;
+    outline-width:thin;
     border: none;
 }
 
