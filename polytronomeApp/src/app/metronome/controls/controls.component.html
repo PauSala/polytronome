@@ -1,42 +1,99 @@
 <div id="addMeasuresControls">
-    <div id="addFiguresBlock">
-        <label for="mesuresSelect">Add or remove figures</label>
+    <div style="display: flex; flex-direction: column; margin-right: 2em;">
+        <div id="addFiguresBlock">
+            <h4 for="mesuresSelect">Add or remove figures</h4>
+            <div style="padding: 0.2em; margin: 0.2em;">
+                <select name="mesuresSelect" id="mesuresSelect" class="select" [(ngModel)]="selectedFigure">
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                    <option value=11>11</option>
+                    <option value=12>12</option>
+                    <option value=13>13</option>
+                </select>
 
-        <div style="padding: 0.2em;">
-            <select name="mesuresSelect" id="mesuresSelect" class="select" [(ngModel)]="selectedFigure">
-                <option value=2>2</option>
-                <option value=3>3</option>
-                <option value=4>4</option>
-                <option value=5>5</option>
-                <option value=6>6</option>
-                <option value=7>7</option>
-                <option value=8>8</option>
-                <option value=9>9</option>
-                <option value=10>10</option>
-                <option value=11>11</option>
-                <option value=12>12</option>
-                <option value=13>13</option>
-            </select>
+                <select name="toneSelect" id="toneSelect" class="select" [(ngModel)]="selectedTone">
+                    <option value=metronome>Metronome</option>
+                    <option value=metronome2>Metronome 2</option>
+                    <option value=lowBell>LowBell</option>
+                    <option value=highBell>HighBell</option>
+                </select>
+            </div>
 
-            <select name="toneSelect" id="toneSelect" class="select" [(ngModel)]="selectedTone">
-                <option value=metronome>Metronome</option>
-                <option value=lowBell>LowBell</option>
-                <option value=highBell>HighBell</option>
-            </select>
         </div>
-
+        <div>
+            <button id="addMesures-button" class="control-button">
+                <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="addFigure()">
+                    add
+                </span>
+            </button>
+            <button id="addMesures-button" class="control-button">
+                <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="removeFigure()">
+                    remove
+                </span>
+            </button>
+        </div>
     </div>
-    <div>
-        <button id="addMesures-button" class="control-button">
-            <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="addFigure()">
-                add
-            </span>
-        </button>
-        <button id="addMesures-button" class="control-button">
-            <span class="material-icons" style="margin: 3px; margin-left: 3px;" (click)="removeFigure()">
-                remove
-            </span>
-        </button>
+    <div style="display: flex; flex-direction: column; margin-top: 0.8em;">
+        <h4 >Current figures</h4>
+        <div style="display: flex; flex-direction: row; margin: 0.5em; width: 390px; flex-wrap: wrap;">
+            <div class="polygon-container" *ngIf="figures.includes('2')">
+                <p class="polygon-label">2</p>
+                <div class="line-wrapper">
+                    <div class='line'></div>
+                </div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('3')">
+                <p class="polygon-label">3</p>
+                <div class='figure triangle'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('4')">
+                <p class="polygon-label">4</p>
+                <div class='figure square'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('5')">
+                <p class="polygon-label">5</p>
+                <div class='figure pentagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('6')">
+                <p class="polygon-label">6</p>
+                <div class='figure hexagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('7')">
+                <p class="polygon-label">7</p>
+                <div class='figure heptagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('8')">
+                <p class="polygon-label">8</p>
+                <div class='figure octagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('9')">
+                <p class="polygon-label">9</p>
+                <div class='figure nonagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('10')">
+                <p class="polygon-label">10</p>
+                <div class='figure decagon'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('11')">
+                <p class="polygon-label">11</p>
+                <div class='figure circle'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('12')">
+                <p class="polygon-label">12</p>
+                <div class='figure circle'></div>
+            </div>
+            <div class="polygon-container" *ngIf="figures.includes('13')">
+                <p class="polygon-label">13</p>
+                <div class='figure circle'></div>
+            </div>
+        </div>
     </div>
 
 </div>

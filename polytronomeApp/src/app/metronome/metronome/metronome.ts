@@ -6,6 +6,7 @@ import { CowBellTone } from "./sound-modules/cowbell-tone";
 import { MetronomeTone } from "./sound-modules/metronome-tone";
 import { LowBellTone } from "./sound-modules/low-bell-tone";
 import { Tone } from "./sound-modules/tone";
+import { MetronomeTone2 } from "./sound-modules/metronome2_tone";
 
 
 export class Metronome {
@@ -16,7 +17,7 @@ export class Metronome {
     private lookahead: number;
     private scheduleAheadTime: number;
     private nextNoteTime: number;
-    private isRunning: boolean;
+    public isRunning: boolean;
     private intervalID!: ReturnType<typeof setTimeout>;
     public tempo: number;
     public groups: FigureSet;
@@ -24,6 +25,7 @@ export class Metronome {
     public clickEventEmitter: EventEmitter<ClickEvent>;
     private cowBellTone: CowBellTone;
     private metronomeTone: MetronomeTone;
+    private metronome2Tone: MetronomeTone2;
     private lowBellTone: LowBellTone;
 
 
@@ -45,26 +47,26 @@ export class Metronome {
         this.clickEventEmitter = new EventEmitter();
         this.cowBellTone = new CowBellTone(this.audioContext);
         this.metronomeTone = new MetronomeTone(this.audioContext);
+        this.metronome2Tone = new MetronomeTone2(this.audioContext);
         this.lowBellTone = new LowBellTone(this.audioContext);
 
     }
 
     public addFigure(event: { figure: number; tone: string; }) {
-        if (!this.groups.includes(event.figure)) {
-            this.groups.push(event.figure);
-            this.figuresConfiguration.set(
-                event.figure, { tone: this.getTone(event.tone), displacement: 0 }
-            )
-        }
+        this.groups = this.groups.filter(figure => figure !== event.figure)
+        this.groups.push(event.figure);
+        this.figuresConfiguration.set(
+            event.figure, { tone: this.getTone(event.tone), displacement: 0 }
+        )
+    }
+
+    public removeFigure(figure: Figure) {
+        this.groups = this.groups.filter((_figure: Figure) => _figure !== figure);
     }
 
     public increaseTempo() { this.tempo++ }
 
     public decreaseTempo() { this.tempo-- }
-
-    public removeFigure(figure: Figure) {
-        this.groups = this.groups.filter((_figure: Figure) => _figure !== figure);
-    }
 
     public startStop() {
 
@@ -150,16 +152,18 @@ export class Metronome {
 
         let subdivision = this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
         let shouldTrigger = beatNumber % Math.floor(subdivision / figure) === 0 || beatNumber === 0;
-        if(shouldTrigger){
-            let tone:Tone | undefined = this.figuresConfiguration.get(figure)?.tone;
+        if (shouldTrigger) {
+            let tone: Tone | undefined = this.figuresConfiguration.get(figure)?.tone;
             tone?.trigger(time);
         }
     }
 
-    private getTone(tone:string):Tone{
-        switch(tone){
-            case 'metronome': 
+    private getTone(tone: string): Tone {
+        switch (tone) {
+            case 'metronome':
                 return this.metronomeTone;
+            case 'metronome2':
+                return this.metronome2Tone;
             case 'lowBell':
                 return this.lowBellTone;
             case 'highBell':

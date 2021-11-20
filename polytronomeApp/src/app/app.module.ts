@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MetronomeLayoutComponent } from './metronome/metronome-layout/metronome-layout.component';
 import { ControlsComponent } from './metronome/controls/controls.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,6 +15,7 @@ import { ControlsComponent } from './metronome/controls/controls.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule
   ],
   providers: [],
