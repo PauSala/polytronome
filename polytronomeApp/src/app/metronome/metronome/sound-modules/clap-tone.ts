@@ -43,7 +43,6 @@ export class ClapTone extends Tone {
 
         this.bufferSource = this.ctx.createBufferSource();
         this.gainNode = this.ctx.createGain();
-        console.log(this.buffer)
         this.bufferSource.buffer = this.buffer;
         this.bufferSource.connect(this.gainNode);
         this.gainNode.connect(this.ctx.destination);
