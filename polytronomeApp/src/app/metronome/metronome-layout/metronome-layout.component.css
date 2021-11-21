@@ -15,10 +15,10 @@
     font-size: 30px;
     font-family: 'Monoton', cursive;
     font-weight: 100;
-    /* color: var(--metronome-text-color-funk);
-    text-shadow: var(--metronome-title-text-shadow-funk); */
-    color: var(--metronome-text-color);
-    text-shadow: var(--metronome-title-text-shadow);
+    color: var(--metronome-text-color-funk);
+    text-shadow: var(--metronome-title-text-shadow-funk);
+    /* color: var(--metronome-text-color);
+    text-shadow: var(--metronome-title-text-shadow); */
     border-radius: 7px;
 }
 
@@ -31,8 +31,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--metronome-background);
-    /* background: var(--metronome-background-orange); */
+    /* background: var(--metronome-background); */
+    background: var(--metronome-background-orange);
     border-radius: 17px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 25px 0 rgba(0, 0, 0, 0.19);
 }
@@ -52,14 +52,14 @@
     display: inline-block;
     font-size: 1.1em;
     font-weight: bold;
-    color: var(--metronome-controls-color);
-    /* color: var(--metronome-controls-color-funk); */
+    /* color: var(--metronome-controls-color); */
+    color: var(--metronome-controls-color-funk);
     border: 0px solid rgb(255, 255, 255);
     width: 2.4em;
     height: 2.4em;
     border-radius: 50%;
-    background-color: var( --metronome-controls-bg-color);
-    /* background-color: var( --metronome-controls-bg-color-funk); */
+    /* background-color: var( --metronome-controls-bg-color); */
+    background-color: var( --metronome-controls-bg-color-funk);
     cursor: pointer;
     z-index: 4;
     vertical-align: middle;
@@ -72,7 +72,7 @@
     height: 2.2em;
 }
 .cbutton-small{
-    font-size: 0.9em;
+    font-size: 0.8em;
     width: 2.1em;
     height: 2.1em;
 }
