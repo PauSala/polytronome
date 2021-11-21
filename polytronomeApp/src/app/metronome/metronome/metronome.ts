@@ -8,6 +8,8 @@ import { DrumTone } from "./sound-modules/drum-tone";
 import { Tone } from "./sound-modules/tone";
 import { MetronomeTone2 } from "./sound-modules/metronome2_tone";
 import { HiHatTone } from "./sound-modules/hi-hat-tone";
+import { ClapTone } from "./sound-modules/clap-tone";
+import { SpoonTone } from "./sound-modules/spoon-tone";
 
 
 export class Metronome {
@@ -19,10 +21,15 @@ export class Metronome {
     private scheduleAheadTime: number;
     private nextNoteTime: number;
     private intervalID!: ReturnType<typeof setTimeout>;
+
     private hihatTone: Tone;
     private metronomeTone: Tone;
     private metronome2Tone: Tone;
     private drumTone: Tone;
+    private clapTone: Tone;
+    private spoonTone: Tone;
+
+    private notesInGroup: Map<number, boolean>
 
     public isRunning: boolean;
     public tempo: number;
@@ -45,6 +52,7 @@ export class Metronome {
         this.lookahead = 25; // How frequently to call scheduling function (in milliseconds)
         this.scheduleAheadTime = 0.1; // How far ahead to schedule audio (sec)
         this.nextNoteTime = 0.0; // when the next note is due
+        this.notesInGroup = new Map();
 
         this.isRunning = false;
         this.groups = groups.sort((a, b) => a - b);
@@ -56,10 +64,14 @@ export class Metronome {
         this.metronomeTone = new MetronomeTone(this.audioContext);
         this.metronome2Tone = new MetronomeTone2(this.audioContext);
         this.drumTone = new DrumTone(this.audioContext);
+        this.clapTone = new ClapTone(this.audioContext);
+        this.spoonTone = new SpoonTone(this.audioContext);
+
 
     }
 
     public addFigure(event: { figure: number; tone: string; }) {
+        this.notesInGroup = new Map();
         this.groups = this.groups.filter(figure => figure !== event.figure)
         this.groups.push(event.figure);
         this.figuresConfiguration.set(
@@ -68,15 +80,16 @@ export class Metronome {
     }
 
     public removeFigure(figure: Figure) {
+        this.notesInGroup = new Map();
         this.groups = this.groups.filter((_figure: Figure) => _figure !== figure);
     }
 
-    public increaseTempo(increase:number) { 
+    public increaseTempo(increase: number) {
         this.tempo += increase;
     }
 
-    public decreaseTempo(decrease:number) { 
-        this.tempo -= decrease; 
+    public decreaseTempo(decrease: number) {
+        this.tempo -= decrease;
     }
 
     public startStop() {
@@ -113,7 +126,7 @@ export class Metronome {
         // while there are notes that will need to play before the next interval, schedule them and advance the pointer.
         while (this.nextNoteTime < this.audioContext.currentTime + this.scheduleAheadTime) {
 
-            if (this.noteInGroup()) {
+            if (this.noteInGroup(this.currentNote)) {
 
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
 
@@ -127,12 +140,19 @@ export class Metronome {
         }
     }
 
-    private noteInGroup() {
+    private noteInGroup(currentNote: number) {
+
+        const exists = this.notesInGroup.get(currentNote);
+        if (exists) return exists;
+
         let subdivision = this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
         if (this.groups.length === 0) return false;
-        if (this.groups.length === 1) return true;
+        else if (this.groups.length === 1) return true;
         else {
-            return this.groups.reduce((a, b) => a || this.currentNote % Math.floor(subdivision / b) === 0, false)
+            const isInGroup = this.groups
+                .reduce((a, b) => a || currentNote % Math.floor(subdivision / b) === 0, false);
+            this.notesInGroup.set(currentNote, isInGroup);
+            return isInGroup;
         }
     }
 
@@ -175,10 +195,14 @@ export class Metronome {
                 return this.metronomeTone;
             case 'metronome2':
                 return this.metronome2Tone;
-            case 'drumTone':
+            case 'drum':
                 return this.drumTone;
             case 'hihat':
                 return this.hihatTone;
+            case 'clap':
+                return this.clapTone;
+            case 'spoon':
+                return this.spoonTone;
             default:
                 return this.metronomeTone
         }

@@ -9,7 +9,7 @@ export class HiHatTone extends Tone {
 
     constructor(ctx: AudioContext) {
         super(ctx);
-        // this.ratios = [40, 2, 3, 4.16, 5.43, 6.79, 8.21];
+        //Not performant :( =>  this.ratios = [40, 2, 3, 4.16, 5.43, 6.79, 8.21];
         this.ratios = [ 2, 4.16, 5.43, 8.21];
 
     }
@@ -43,10 +43,6 @@ export class HiHatTone extends Tone {
         this.gainNode.gain.exponentialRampToValueAtTime(0.3, time + 0.03);
         this.gainNode.gain.exponentialRampToValueAtTime(0.00001, time + 0.3);
 
-        // this.gainNode.gain.setValueAtTime(0.00001, time);
-        // this.gainNode.gain.exponentialRampToValueAtTime(0.1, time + 0.02); 
-        // this.gainNode.gain.exponentialRampToValueAtTime(0.03, time + 0.03);
-        // this.gainNode.gain.exponentialRampToValueAtTime(0.000001, time + 0.3);
     }
 
     public trigger = (time: number) => {
