@@ -1,3 +1,3 @@
 # polytronome
 Polytronome
-![](polytronome.png)
+![polytronome](polytronome.png)
