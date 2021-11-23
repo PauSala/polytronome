@@ -1,3 +1,3 @@
 # polytronome
 Polytronome
-![polytronome](polytronome.png)
+![polytronome](PolytronomeApp/polytronome.png)
