@@ -2,4 +2,4 @@
 ## Polytronome app with angular and typescript
 [Demo](https://polytronome.ovh)  
   
-<img src="polytronomeApp/polytronome.png" alt="polytronome" style="width:600px;"/>
+<img src="polytronomeApp/polytronome.png" alt="polytronome" style="width:700px;"/>
