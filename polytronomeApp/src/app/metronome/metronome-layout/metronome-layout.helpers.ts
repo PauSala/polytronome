@@ -21,7 +21,7 @@ export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void =
 }
 
 
-export const getPoints = (groups: FigureSet, c: Circle) => {
+export const getPoints = (groups: FigureSet, c: Circle): Point[] => {
 
     let subdivision = groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
     let angle = (2 * Math.PI) / subdivision; // the angle between vertices
@@ -36,15 +36,11 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
     return points;
 }
 
-export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D, centralCircle:Circle) => {
-
-    //radius
-    // ctx.beginPath();    
-    // ctx.lineWidth = 1;
-    // ctx.moveTo(centralCircle.x, centralCircle.y);   
-    // ctx.lineTo(x, y);  
-    // ctx.stroke();       
-
+export const drawClick = (
+    x: number,
+    y: number,
+    ctx: CanvasRenderingContext2D,
+    centralCircle: Circle): void => {
     //point
     ctx.beginPath();
     ctx.arc(x, y, 4, 0, 2 * Math.PI);
@@ -55,7 +51,10 @@ export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D, c
     ctx.fill();
 }
 
-export const drawFigures = (points: Array<Point>, groups: FigureSet, ctx: CanvasRenderingContext2D) => {
+export const drawFigures = (
+    points: Array<Point>,
+    groups: FigureSet,
+    ctx: CanvasRenderingContext2D): void => {
 
     ctx.lineWidth = 1;
     groups.forEach(measure => {
@@ -64,7 +63,9 @@ export const drawFigures = (points: Array<Point>, groups: FigureSet, ctx: Canvas
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; i++) {
-            if (i % Math.floor(subdivision / measure) === 0) ctx.lineTo(points[i].x, points[i].y);
+            if (i % Math.floor(subdivision / measure) === 0) {
+                ctx.lineTo(points[i].x, points[i].y)
+            };
         }
         ctx.closePath();
         ctx.strokeStyle = 'white';
@@ -72,7 +73,10 @@ export const drawFigures = (points: Array<Point>, groups: FigureSet, ctx: Canvas
     });
 }
 
-export const getMainGradient = (ctx: CanvasRenderingContext2D, c: Circle) => {
+export const getMainGradient = (
+    ctx: CanvasRenderingContext2D,
+    c: Circle): CanvasGradient => {
+
     let gradient = ctx.createRadialGradient(c.x, c.y, 1, c.x, c.y, c.r);
     gradient.addColorStop(0, '#fff');
     gradient.addColorStop(1, '#7a8bc19f');
