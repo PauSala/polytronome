@@ -37,6 +37,8 @@ export class Metronome {
     public figuresConfiguration: FigureConfigurationMap;
     public clickEventEmitter: EventEmitter<ClickEvent>;
 
+    private raf:number =  0;
+
 
     constructor(
         tempo: number,
@@ -104,6 +106,7 @@ export class Metronome {
         this.isRunning = false;
         clearInterval(this.intervalID);
         this.currentNote = 0;
+        cancelAnimationFrame(this.raf);
     }
 
     private start() {
@@ -224,7 +227,7 @@ export class Metronome {
             this.emittClickEvent(currentNote);
         }
         // set up to draw again
-        requestAnimationFrame(this.draw.bind(this));
+        this.raf = requestAnimationFrame(this.draw.bind(this));
     }
 
 }

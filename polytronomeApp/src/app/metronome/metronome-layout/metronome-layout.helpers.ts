@@ -39,11 +39,11 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
 export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D, centralCircle:Circle) => {
 
     //radius
-    ctx.beginPath();    
-    ctx.lineWidth = 1;
-    ctx.moveTo(centralCircle.x, centralCircle.y);   
-    ctx.lineTo(x, y);  
-    ctx.stroke();       
+    // ctx.beginPath();    
+    // ctx.lineWidth = 1;
+    // ctx.moveTo(centralCircle.x, centralCircle.y);   
+    // ctx.lineTo(x, y);  
+    // ctx.stroke();       
 
     //point
     ctx.beginPath();
