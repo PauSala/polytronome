@@ -2,7 +2,7 @@ import { ClickEvent } from "../metronome/types";
 import { lcm_two_numbers } from "../utils/lcm";
 import { Circle, FigureSet, Point } from "./types";
 
-export const continousPointMoveGroupValue =51;
+export const continousPointMoveGroupValue = 201;
 
 export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void => {
 
@@ -81,10 +81,10 @@ export const animate = (
     ctx.clearRect(0, 0, width, height);
 
     const filteredGroups = animateEvent.groups.filter(g => g !== continousPointMoveGroupValue);
-    const points = getPoints(filteredGroups, centralCircle);
+    const figurePoints = getPoints(filteredGroups, centralCircle);
     
     drawMainCircle(ctx, centralCircle);
-    drawFigures(points,filteredGroups, ctx);
+    drawFigures(figurePoints,filteredGroups, ctx);
 
     const drawPoints = getPoints(animateEvent.groups, centralCircle);
 
