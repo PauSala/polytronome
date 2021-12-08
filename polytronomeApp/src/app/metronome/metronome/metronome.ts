@@ -17,7 +17,6 @@ export class Metronome {
     private audioContext: AudioContext;
     private notesInQueue: Array<Note>;
     private currentNote: number;
-    private currentNoteToPaint: number;
     private lookahead: number;
     private scheduleAheadTime: number;
     private nextNoteTime: number;
@@ -47,7 +46,6 @@ export class Metronome {
         this.audioContext = new (window.AudioContext)();
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentNote = 0;
-        this.currentNoteToPaint = 0;
         this.tempo = tempo;
 
         /**Scheduler */
@@ -68,8 +66,6 @@ export class Metronome {
         this.drumTone = new DrumTone(this.audioContext);
         this.clapTone = new ClapTone(this.audioContext);
         this.spoonTone = new SpoonTone(this.audioContext);
-
-
     }
 
     public addFigure(event: { figure: number; tone: string; }) {
@@ -115,18 +111,19 @@ export class Metronome {
         const INITIAL_DELAY = 0.05;
 
         if (this.isRunning) return;
-        this.emittClickEvent();
+        this.emittClickEvent(this.currentNote);
         
         this.isRunning = true;
         this.currentNote = 0;
         this.nextNoteTime = this.audioContext.currentTime + INITIAL_DELAY;
         this.intervalID = setInterval(() => this.scheduler(), this.lookahead);
+        this.draw();
     }
 
-    private emittClickEvent():void{
+    private emittClickEvent(currentNote:number):void{
 
         const clickEvent: ClickEvent = {
-            currentNote: this.currentNote,
+            currentNote: currentNote,
             groups: this.groups,
         }
         this.clickEventEmitter.emit(clickEvent);
@@ -141,11 +138,10 @@ export class Metronome {
 
             if (this.noteInGroup(this.currentNote)) {
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
+                this.notesInQueue.push({note:this.currentNote, time:this.nextNoteTime})
             }
             this.nextNote();
         }
-        this.emittClickEvent();
-        
     }
 
     private noteInGroup(currentNote: number) {
@@ -213,6 +209,22 @@ export class Metronome {
             default:
                 return this.metronomeTone
         }
+    }
+
+    public draw() {
+        let currentNote = this.currentNote;
+        const currentTime = this.audioContext.currentTime;
+    
+        while (this.notesInQueue.length && this.notesInQueue[0].time < currentTime) {
+            currentNote = this.notesInQueue[0].note;
+            this.notesInQueue.splice(0,1);   // remove note from queue
+        }
+
+        if(currentNote !== this.currentNote){
+            this.emittClickEvent(currentNote);
+        }
+        // set up to draw again
+        requestAnimationFrame(this.draw.bind(this));
     }
 
 }

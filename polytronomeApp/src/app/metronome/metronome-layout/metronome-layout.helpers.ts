@@ -39,16 +39,16 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
 export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D, centralCircle:Circle) => {
 
     //radius
-    /* ctx.beginPath();    
+    ctx.beginPath();    
     ctx.lineWidth = 1;
     ctx.moveTo(centralCircle.x, centralCircle.y);   
     ctx.lineTo(x, y);  
-    ctx.stroke();    */     
+    ctx.stroke();       
 
     //point
     ctx.beginPath();
-    ctx.arc(x, y, 5, 0, 2 * Math.PI);
-    ctx.lineWidth = 5;
+    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+    ctx.lineWidth = 4;
     ctx.strokeStyle = 'white';
     ctx.fillStyle = '#0d4770';
     ctx.stroke();
@@ -100,9 +100,6 @@ export const animate = (
     if (drawPoints[animateEvent.currentNote]) {
         drawClick(drawPoints[animateEvent.currentNote].x, drawPoints[animateEvent.currentNote].y, ctx, centralCircle);
     }
-
-    //requestAnimationFrame(() => animate);
-
 }
 
 
