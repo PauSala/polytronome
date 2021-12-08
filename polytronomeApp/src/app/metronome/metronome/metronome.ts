@@ -141,7 +141,6 @@ export class Metronome {
 
             if (this.noteInGroup(this.currentNote)) {
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
-                this.notesInQueue.push({note:this.currentNote, time:this.nextNoteTime})
             }
             this.nextNote();
         }
@@ -165,7 +164,7 @@ export class Metronome {
 
     private scheduleNote(beatNumber: number, time: number) {
         // push the note on the queue, even if we're not playing.
-        //this.notesInQueue.push({ note: beatNumber, time: time, audioContext: this.audioContext.currentTime });
+        this.notesInQueue.push({ note: beatNumber, time: time });
         this.groups.forEach(figure => {
             this.groupToneAssociation(time, figure, beatNumber);
         })
