@@ -63,10 +63,11 @@ export class MetronomeLayoutComponent implements AfterViewInit {
   public draw() {
 
     this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
-    const points = getPoints(this.metronome.groups, this.c);
+    const filteredGroups = this.metronome.groups.filter(g => g !== continousPointMoveGroupValue);
     drawMainCircle(this.ctx, this.c);
-    drawFigures(points, this.metronome.groups, this.ctx);
 
+    const points = getPoints(filteredGroups, this.c);
+    drawFigures(points, filteredGroups, this.ctx);
 
   }
 

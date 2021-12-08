@@ -78,7 +78,7 @@ export class Metronome {
         this.groups.push(event.figure);
         this.figuresConfiguration.set(
             event.figure, { tone: this.getTone(event.tone), displacement: 0 }
-        )
+        );
     }
 
     public removeFigure(figure: Figure) {
@@ -107,6 +107,7 @@ export class Metronome {
 
         this.isRunning = false;
         clearInterval(this.intervalID);
+        this.currentNote = 0;
     }
 
     private start() {
@@ -114,11 +115,21 @@ export class Metronome {
         const INITIAL_DELAY = 0.05;
 
         if (this.isRunning) return;
-
+        this.emittClickEvent();
+        
         this.isRunning = true;
         this.currentNote = 0;
         this.nextNoteTime = this.audioContext.currentTime + INITIAL_DELAY;
         this.intervalID = setInterval(() => this.scheduler(), this.lookahead);
+    }
+
+    private emittClickEvent():void{
+
+        const clickEvent: ClickEvent = {
+            currentNote: this.currentNote,
+            groups: this.groups,
+        }
+        this.clickEventEmitter.emit(clickEvent);
     }
 
     private scheduler() {
@@ -129,17 +140,12 @@ export class Metronome {
         while (this.nextNoteTime < this.audioContext.currentTime + this.scheduleAheadTime) {
 
             if (this.noteInGroup(this.currentNote)) {
-
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
             }
             this.nextNote();
         }
-
-        const clickEvent: ClickEvent = {
-            currentNote: this.currentNote,
-            groups: this.groups,
-        }
-        this.clickEventEmitter.emit(clickEvent);
+        this.emittClickEvent();
+        
     }
 
     private noteInGroup(currentNote: number) {

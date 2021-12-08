@@ -2,14 +2,14 @@ import { ClickEvent } from "../metronome/types";
 import { lcm_two_numbers } from "../utils/lcm";
 import { Circle, FigureSet, Point } from "./types";
 
-export const continousPointMoveGroupValue = 201;
+export const continousPointMoveGroupValue = 360;
 
 export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void => {
 
     ctx.save();
     ctx.shadowColor = 'white'
     ctx.shadowBlur = 10;
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.globalAlpha = 0.6;
     ctx.beginPath();
     ctx.arc(c.x, c.y, c.r, 0, 2 * Math.PI);
@@ -36,12 +36,20 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
     return points;
 }
 
-export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
+export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D, centralCircle:Circle) => {
+
+    ctx.beginPath();       // Start a new path
+    ctx.lineWidth = 1;
+    ctx.moveTo(centralCircle.x, centralCircle.y);    // Move the pen to (30, 50)
+    ctx.lineTo(x, y);  // Draw a line to (150, 100)
+    ctx.stroke();          // Render the path
+
+    
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, 2 * Math.PI);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 5;
     ctx.strokeStyle = 'white';
-    ctx.fillStyle = '#7d2c8b';
+    ctx.fillStyle = '#0d4770';
     ctx.stroke();
     ctx.fill();
 }
@@ -82,17 +90,17 @@ export const animate = (
 
     const filteredGroups = animateEvent.groups.filter(g => g !== continousPointMoveGroupValue);
     const figurePoints = getPoints(filteredGroups, centralCircle);
-    
+
     drawMainCircle(ctx, centralCircle);
-    drawFigures(figurePoints,filteredGroups, ctx);
+    drawFigures(figurePoints, filteredGroups, ctx);
 
     const drawPoints = getPoints(animateEvent.groups, centralCircle);
 
-    if(drawPoints[animateEvent.currentNote]){
-        drawClick(drawPoints[animateEvent.currentNote].x, drawPoints[animateEvent.currentNote].y, ctx);
+    if (drawPoints[animateEvent.currentNote]) {
+        drawClick(drawPoints[animateEvent.currentNote].x, drawPoints[animateEvent.currentNote].y, ctx, centralCircle);
     }
 
-    requestAnimationFrame(() => animate)
+    //requestAnimationFrame(() => animate);
 
 }
 
