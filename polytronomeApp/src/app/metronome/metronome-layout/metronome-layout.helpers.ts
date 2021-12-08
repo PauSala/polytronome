@@ -2,6 +2,8 @@ import { ClickEvent } from "../metronome/types";
 import { lcm_two_numbers } from "../utils/lcm";
 import { Circle, FigureSet, Point } from "./types";
 
+export const continousPointMoveGroupValue =51;
+
 export const drawMainCircle = (ctx: CanvasRenderingContext2D, c: Circle): void => {
 
     ctx.save();
@@ -34,18 +36,19 @@ export const getPoints = (groups: FigureSet, c: Circle) => {
     return points;
 }
 
-export const drawClicks = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
+export const drawClick = (x: number, y: number, ctx: CanvasRenderingContext2D) => {
     ctx.beginPath();
-    ctx.arc(x, y, 4, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#f7e2399e';
-    ctx.fillStyle = '#f7e2399e';
+    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = '#7d2c8b';
     ctx.stroke();
     ctx.fill();
 }
 
 export const drawFigures = (points: Array<Point>, groups: FigureSet, ctx: CanvasRenderingContext2D) => {
 
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     groups.forEach(measure => {
 
         let subdivision = groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
@@ -75,16 +78,22 @@ export const animate = (
     centralCircle: Circle
 ): void => {
 
-    const points = getPoints(animateEvent.groups, centralCircle);
-
     ctx.clearRect(0, 0, width, height);
+
+    const filteredGroups = animateEvent.groups.filter(g => g !== continousPointMoveGroupValue);
+    const points = getPoints(filteredGroups, centralCircle);
+    
     drawMainCircle(ctx, centralCircle);
-    drawFigures(points, animateEvent.groups, ctx);
-    if(points[animateEvent.currentNote]){
-        drawClicks(points[animateEvent.currentNote].x, points[animateEvent.currentNote].y, ctx);
+    drawFigures(points,filteredGroups, ctx);
+
+    const drawPoints = getPoints(animateEvent.groups, centralCircle);
+
+    if(drawPoints[animateEvent.currentNote]){
+        drawClick(drawPoints[animateEvent.currentNote].x, drawPoints[animateEvent.currentNote].y, ctx);
     }
 
     requestAnimationFrame(() => animate)
 
 }
+
 

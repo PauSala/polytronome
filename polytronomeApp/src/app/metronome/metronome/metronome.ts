@@ -6,7 +6,7 @@ import { CowBellTone } from "./sound-modules/cowbell-tone";
 import { MetronomeTone } from "./sound-modules/metronome-tone";
 import { DrumTone } from "./sound-modules/drum-tone";
 import { Tone } from "./sound-modules/tone";
-import { MetronomeTone2 } from "./sound-modules/metronome2_tone";
+import { MetronomeTone2 } from "./sound-modules/metronome2-tone";
 import { HiHatTone } from "./sound-modules/hi-hat-tone";
 import { ClapTone } from "./sound-modules/clap-tone";
 import { SpoonTone } from "./sound-modules/spoon-tone";
@@ -17,6 +17,7 @@ export class Metronome {
     private audioContext: AudioContext;
     private notesInQueue: Array<Note>;
     private currentNote: number;
+    private currentNoteToPaint: number;
     private lookahead: number;
     private scheduleAheadTime: number;
     private nextNoteTime: number;
@@ -46,6 +47,7 @@ export class Metronome {
         this.audioContext = new (window.AudioContext)();
         this.notesInQueue = []; // notes that have been put into the web audio and may or may not have been played yet {note, time}
         this.currentNote = 0;
+        this.currentNoteToPaint = 0;
         this.tempo = tempo;
 
         /**Scheduler */
@@ -129,15 +131,15 @@ export class Metronome {
             if (this.noteInGroup(this.currentNote)) {
 
                 this.scheduleNote(this.currentNote, this.nextNoteTime);
-
-                const clickEvent: ClickEvent = {
-                    currentNote: this.currentNote,
-                    groups: this.groups,
-                }
-                this.clickEventEmitter.emit(clickEvent);
             }
             this.nextNote();
         }
+
+        const clickEvent: ClickEvent = {
+            currentNote: this.currentNote,
+            groups: this.groups,
+        }
+        this.clickEventEmitter.emit(clickEvent);
     }
 
     private noteInGroup(currentNote: number) {
@@ -175,8 +177,7 @@ export class Metronome {
     }
 
     private adjustTempo(): number {
-        //return  (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) / this.groups.reduce((a, b) => Math.min(a, b))
-        return (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1)) // this.groups.reduce((a, b) => Math.max(a, b))
+        return (this.groups.reduce((a, b) => lcm_two_numbers(a, b), 1));
     }
 
     private groupToneAssociation(time: number, figure: number, beatNumber: number) {

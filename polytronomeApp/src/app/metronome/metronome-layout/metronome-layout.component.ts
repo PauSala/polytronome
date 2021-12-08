@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Metronome } from '../metronome/metronome';
-import { ClickEvent, FigureConfiguration, FigureConfigurationMap } from '../metronome/types';
+import { ClickEvent, FigureConfigurationMap } from '../metronome/types';
 import { HandleFiguresServiceService } from '../services/handle-figures-service.service';
-import { animate, drawFigures, drawMainCircle, getPoints } from './metronome-layout.helpers';
+import { animate, continousPointMoveGroupValue, drawFigures, drawMainCircle, getPoints } from './metronome-layout.helpers';
 import { Circle, Figure, FigureSet } from './types';
 
 @Component({
@@ -26,7 +26,7 @@ export class MetronomeLayoutComponent implements AfterViewInit {
   constructor(private handleFiguresService: HandleFiguresServiceService) {
 
     const INITIAL_TEMPO = 50;
-    const INITIAL_FIGURES: FigureSet = [];
+    const INITIAL_FIGURES: FigureSet = [continousPointMoveGroupValue];
     const INITIAL_FIGURES_CONFIGURATION: FigureConfigurationMap = new Map();
 
     this.tempo = INITIAL_TEMPO;
