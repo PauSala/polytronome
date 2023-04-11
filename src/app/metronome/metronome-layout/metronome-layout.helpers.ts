@@ -25,7 +25,7 @@ export const getPoints = (groups: FigureSet, c: Circle): Point[] => {
 
     let subdivision = groups.reduce((a, b) => lcm_two_numbers(a, b), 1);
     let angle = (2 * Math.PI) / subdivision; // the angle between vertices
-    let points = []; // the vertices array
+    let points: Array<Point> = []; // the vertices array
 
     for (let i = 0; i < subdivision; i++) {
         let o: Point = { x: 0, y: 0 };
