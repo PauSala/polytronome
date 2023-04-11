@@ -102,5 +102,7 @@
       }
     }
   },
-  "defaultProject": "polytronomeApp"
+  "cli": {
+    "analytics": "08fbde81-b834-468f-94c2-07e94709dd24"
+  }
 }
